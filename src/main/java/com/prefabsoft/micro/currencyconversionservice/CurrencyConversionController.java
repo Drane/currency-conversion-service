@@ -32,7 +32,7 @@ public class CurrencyConversionController {
         CurrencyConversionBean response = responseEntity.getBody();
 
         return new CurrencyConversionBean(response.getId(), from, to, response.getConversionMultiple(), quantity,
-                quantity.multiply(response.getConversionMultiple()), getPort());
+                quantity.multiply(response.getConversionMultiple()), response.getPort());
     }
 
     @GetMapping("/currency-converter-feign/from/{from}/to/{to}/quantity/{quantity}")
@@ -40,7 +40,7 @@ public class CurrencyConversionController {
         CurrencyConversionBean response = proxy.retrieveExchangeValue(from, to);
 
         return new CurrencyConversionBean(response.getId(), from, to, response.getConversionMultiple(), quantity,
-                quantity.multiply(response.getConversionMultiple()), getPort());
+                quantity.multiply(response.getConversionMultiple()), response.getPort());
     }
 
     private int getPort() {
