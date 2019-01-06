@@ -1,6 +1,7 @@
 package com.prefabsoft.micro.currencyconversionservice;
 
 import com.prefabsoft.micro.currencyconversionservice.bean.CurrencyConversionBean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Slf4j
 public class CurrencyConversionController {
 
     @Autowired
@@ -38,6 +40,8 @@ public class CurrencyConversionController {
     @GetMapping("/currency-converter-feign/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionBean convertCurrencyFeign(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity){
         CurrencyConversionBean response = proxy.retrieveExchangeValue(from, to);
+
+        log.info("response: ", response);
 
         return new CurrencyConversionBean(response.getId(), from, to, response.getConversionMultiple(), quantity,
                 quantity.multiply(response.getConversionMultiple()), response.getPort());
